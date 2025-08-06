@@ -23,3 +23,10 @@ Projeto proposto durante a tutoria do Programa Desenvolve - Grupo Boticário.
 
 ---
 
+
+
+## 👾 Como testar?
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/ThallyssonLuiz/assistente-ia
