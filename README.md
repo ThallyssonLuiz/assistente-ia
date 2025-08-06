@@ -1,7 +1,25 @@
-# assistente-ia
-Segundo projeto em grupo proposto pela Tutoria do "Programa Desenvole - Grupo Boticário"
+# 💜 Lily - Assistente Pessoal de IA
 
-Divisão de tarefas
-Raquel: html
-Alice e Bruno: css
-Layssa e Thallysson: js
+Projeto proposto durante a tutoria do Programa Desenvolve - Grupo Boticário.
+
+---
+
+## 🧠 Funcionalidades
+
+- Criação de uma aplicação web interativa
+- Integração com APIs externas (OpenAI/Gemini)
+- Implementação de validação de formulários
+- Utilização de APIs do navegador
+- Boas práticas de UX/UI
+
+---
+
+## 🪻 Conceito da Aplicação
+
+- Deve se fazer uma pergunta ao assistente Lily
+- Clicar em "Enviar"
+- A aplicação irá fazer uma requisição para API da OpenIA/Gemini
+- A resposta será exibida
+
+---
+
