@@ -23,8 +23,6 @@ Projeto proposto durante a tutoria do Programa Desenvolve - Grupo Boticário.
 
 ---
 
-
-
 ## 👾 Como testar?
 
 1. Clone o repositório:
