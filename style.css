@@ -129,7 +129,7 @@ body {
   z-index: 10;
 }
 
-/* === Dark Mode === */
+/* Tema escuro */
 body.dark-mode {
   background: #1e1e2f;
   color: #f0f0f0;
