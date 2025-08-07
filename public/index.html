@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assistente IA - Lily</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-container">
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
+    <header class="header">
+      <h1>Lily</h1>
+      <p>Assistente Virtual do Grupo Boticário</p>
+    </header>
+
+    <section class="chat-area">
+      <div class="message bot">
+        <div class="avatar">
+          <img src="imgs/lily.jpg" alt="Avatar do Assistente">
+        </div>
+        <div class="text">Olá! Como posso te ajudar hoje?</div>
+      </div>
+
+      <!--<div class="message user">
+        <div class="text">Qual a previsão do tempo?</div>
+        <div class="avatar">👤</div>
+      </div>-->
+    </section>
+
+    <footer class="input-area">
+      <input type="text" id="userInput" placeholder="Qual a sua dúvida hoje?" />
+      <button id="sendBtn">Enviar</button>
+    </footer>
+  </div>
+  
+<script src="script.js"></script>
+</body>
+</html>
