@@ -1,5 +1,6 @@
 const body = document.body;
 const toggleBtn = document.getElementById("themeToggle");
+const apiKeyInput = document.getElementById('apiKeyInput');
 
 function toggleTheme() {
   body.classList.toggle("dark-mode");
@@ -32,6 +33,18 @@ function loadThemePreference() {
   }
   updateIcon();
 }
+
+function loadApiKey() {
+  const savedKey = sessionStorage.getItem('geminiApiKey');
+  if (savedKey) {
+    apiKeyInput.value = savedKey;
+  }
+}
+
+apiKeyInput.addEventListener('input', () => {
+  sessionStorage.setItem('geminiApiKey', apiKeyInput.value.trim());
+});
+
 
 window.onload = () => {
   loadThemePreference();            
