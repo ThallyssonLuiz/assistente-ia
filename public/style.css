@@ -1,0 +1,168 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Tema claro */
+body {
+  background: #f4f1fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #333;
+}
+
+.app-container {
+  background: #ffffff;
+  width: 375px;
+  height: 667px;
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.header {
+  background: linear-gradient(135deg, #e858ff, #8f54ff);
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.chat-area {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.message {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.message.bot .text {
+  background: #4e9fff;
+  color: white;
+}
+
+.message.user {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.message.user .text {
+  background: #e858ff;
+  color: white;
+}
+
+.text {
+  padding: 10px 15px;
+  border-radius: 20px;
+  max-width: 70%;
+  font-size: 14px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.input-area {
+  display: flex;
+  padding: 10px 15px;
+  border-top: 1px solid #ddd;
+  background: #f9f9f9;
+}
+
+.input-area input {
+  flex: 1;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 20px;
+  background: #eae6f8;
+  color: #333;
+}
+
+.input-area button {
+  background: linear-gradient(135deg, #8f54ff, #4e9fff);
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  margin-left: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* Botão para alterar o tema */
+.theme-toggle {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: white;
+  z-index: 10;
+}
+
+/* Tema escuro */
+body.dark-mode {
+  background: #1e1e2f;
+  color: #f0f0f0;
+}
+
+body.dark-mode .app-container {
+  background: #2a2a3d;
+}
+
+body.dark-mode .header {
+  background: linear-gradient(135deg, #8f54ff, #4e9fff);
+}
+
+body.dark-mode .message.bot .text {
+  background: #4e9fff;
+  color: white;
+}
+
+body.dark-mode .message.user .text {
+  background: #e858ff;
+  color: white;
+}
+
+body.dark-mode .input-area {
+  background: #1e1e2f;
+  border-top: 1px solid #444;
+}
+
+body.dark-mode .input-area input {
+  background: #33354d;
+  color: #f0f0f0;
+}
+
+body.dark-mode .input-area button {
+  background: linear-gradient(135deg, #e858ff, #8f54ff);
+}
