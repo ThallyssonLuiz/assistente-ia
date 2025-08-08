@@ -2,6 +2,7 @@ import express from 'express';
 import OpenAI from 'openai';
 import cors from 'cors';
 import path from 'path';
+import 'dotenv/config';
 import { fileURLToPath } from 'url';
 
 const app = express();
@@ -16,7 +17,7 @@ app.use(express.json())
 app.use(express.static(path.join(_dirname, 'public')));
 
 const openai = new OpenAI({
-    'apiKey': '//ponha sua chave da API aqui'
+    'apiKey': process.env.OPEN_API_KEY
 });
 
 //Essa rota POST é a responsável por receber as mensagens do front
