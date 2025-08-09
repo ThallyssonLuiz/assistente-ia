@@ -76,6 +76,30 @@ button.addEventListener("click", async() => {
   }
 });
 
+window.addEventListener('DOMContentLoaded', () => {
+  const mensagens = JSON.parse(localStorage.getItem('conteudoUsuario') || '[]');
+  const respostas = JSON.parse(localStorage.getItem('conteudoIA') || '[]');
+
+  for (let i=0; i < mensagens.length; i++) {
+    chatArea.innerHTML += `
+      <div class="message user">
+        <div class="text">${mensagens[i]}</div>
+        <div class="avatar">👤</div>
+      </div>
+    `;
+    if (respostas[i]) {
+      chatArea.innerHTML += `
+        <div class="message bot">
+          <div class="avatar">
+            <img src="imgs/lily.jpg" alt="Avatar do Assistente">
+          </div>
+          <div class="text">${respostas[i]}</div>
+        </div>
+      `;
+    }
+  }
+});
+
 function toggleTheme() {
   body.classList.toggle("dark-mode");
   updateIcon();
