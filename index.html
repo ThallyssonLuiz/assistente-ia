@@ -18,11 +18,12 @@
       <input type="text" placeholder="Insira sua API Key aqui" />
     </div>
     <section class="chat-area">
-      <div class="message bot">
+      <div class="message bot" role="region" aria-label="Mensagem da assistente Lily">
         <div class="avatar">
           <img src="imgs/lily.jpg" alt="Avatar do Assistente">
         </div>
         <div class="text">Olá! Como posso te ajudar hoje?</div>
+        <button class="copy-btn" aria-label="Copiar mensagem" onclick="copyToClipboard(this)">📋</button>
       </div>
 
       <div class="message user">
