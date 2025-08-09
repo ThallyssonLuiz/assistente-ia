@@ -16,13 +16,16 @@ app.use(cors());
 app.use(express.json())
 app.use(express.static(path.join(_dirname, 'public')));
 
-const openai = new OpenAI({
-    'apiKey': process.env.OPEN_API_KEY
-});
-
 //Essa rota POST é a responsável por receber as mensagens do front
 app.post('/mensagem', async (req, res) => {
-    const mensagem = req.body.mensagem;
+    const { chave, mensagem } = req.body;
+    //const mensagem = req.body.mensagem;
+
+    if (!chave) {
+        return res.status(400).json({ erro: "Chave da API não fornecida" });
+    }
+
+    const openai = new OpenAI({ apiKey: chave});
 
     try {
         const completion = await openai.chat.completions.create({

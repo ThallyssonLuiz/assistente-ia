@@ -1,13 +1,32 @@
 const body = document.body;
 const toggleBtn = document.getElementById("themeToggle");
-const input = document.querySelector("#userInput");
-const button = document.querySelector("#sendBtn");
+const input = document.getElementById("userInput");
+const button = document.getElementById("sendBtn");
 const chatArea = document.querySelector(".chat-area");
+const inputKeyApi = document.getElementById("inputApiKey");
+
+inputKeyApi.addEventListener("keydown", function(event) {
+  if (event.key == "Enter") {
+    const chaveAPI = inputKeyApi.value.trim();
+    if (chaveAPI) {
+      localStorage.setItem("OPEN_API_KEY", chaveAPI);
+      console.log("Chave salva no navegador");
+      alert("Chave salva com sucesso!");
+      inputKeyApi.value = "";
+    }
+  }
+})
 
 button.addEventListener("click", async() => {
   const textoUsuario = input.value.trim();
   if (!textoUsuario) return;
 
+  const chave = localStorage.getItem("OPEN_API_KEY");
+
+  if (!chave) {
+    alert("Por favor, insira sua chave da API antes de enviar mensagens.");
+    return;
+  }
 
   let mensagens = JSON.parse(localStorage.getItem('conteudoUsuario')) || [];
   mensagens.push(textoUsuario);
@@ -30,7 +49,10 @@ button.addEventListener("click", async() => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       //nesse ponto, o stringify transforma o objeto recebido em json
-      body: JSON.stringify({ mensagem: textoUsuario })
+      body: JSON.stringify({ 
+        chave: chave,
+        mensagem: textoUsuario 
+      })
     });
 
     const data = await response.json();
