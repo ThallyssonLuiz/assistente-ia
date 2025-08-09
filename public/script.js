@@ -114,6 +114,7 @@ function updateIcon() {
   }
 }
 
+//parte de persistência de tema
 function saveThemePreference() {
   if (body.classList.contains("dark-mode")) {
     localStorage.setItem("theme", "dark");
