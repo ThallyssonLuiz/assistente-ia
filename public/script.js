@@ -136,3 +136,16 @@ window.onload = () => {
   updateIcon(); 
 };
 
+/* clipboar */
+function copyToClipboard(button) {
+  const messageText = button.parentElement.textContent.replace('📋', '').trim();
+
+  navigator.clipboard.writeText(messageText).then(() => {
+    button.textContent = '✅'; // feedback
+    setTimeout(() => {
+      button.textContent = '📋';
+    }, 1500);
+  }).catch(err => {
+    console.error('Erro ao copiar:', err);
+  });
+}
