@@ -9,6 +9,7 @@ Projeto proposto durante a tutoria do Programa Desenvolve - Grupo Boticário.
 - Criação de uma aplicação web interativa
 - Integração com APIs externas (OpenAI/Gemini)
 - Implementação de validação de formulários
+- Criação de interfaces responsíveis e acessiveis
 - Utilização de APIs do navegador
 - Boas práticas de UX/UI
 
