@@ -201,3 +201,17 @@ body.dark-mode .input-area input {
 body.dark-mode .input-area button {
   background: linear-gradient(135deg, #e858ff, #8f54ff);
 }
+
+.copy-btn {
+  background: none;
+  border: none;
+  font-size: 14px;
+  margin-left: 10px;
+  cursor: pointer;
+  color: white;
+  transition: transform 0.2s ease;
+}
+
+.copy-btn:hover {
+  transform: scale(1.2);
+}
