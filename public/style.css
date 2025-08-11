@@ -155,6 +155,11 @@ body {
   font-size: clamp(14px, 1.1vw, 18px);
 }
 
+#copy {
+  margin: 0 0 10px 0;
+  text-align: center;
+}
+
 /* Botão para alterar o tema */
 .theme-toggle {
   position: absolute;
