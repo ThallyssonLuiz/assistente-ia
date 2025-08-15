@@ -149,3 +149,18 @@ function copyToClipboard(button) {
     console.error('Erro ao copiar:', err);
   });
 }
+
+const userInput = document.getElementById('userInput');
+const charCount = document.getElementById('charCount');
+const sendBtn = document.getElementById('sendBtn');
+const maxLength = userInput.getAttribute('maxlength');
+
+userInput.addEventListener('input', () => {
+  const currentLength = userInput.value.length;
+  charCount.textContent = `${currentLength} / ${maxLength}`;
+});
+
+sendBtn.addEventListener('click', () => {
+  userInput.value = '';                      
+  charCount.textContent = `0 / ${maxLength}`;
+});
