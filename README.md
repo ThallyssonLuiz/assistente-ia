@@ -9,7 +9,6 @@ Projeto proposto durante a tutoria do Programa Desenvolve - Grupo Boticário.
 - Criação de uma aplicação web interativa
 - Integração com APIs externas (OpenAI/Gemini)
 - Implementação de validação de formulários
-- Criação de interfaces responsíveis e acessiveis
 - Utilização de APIs do navegador
 - Boas práticas de UX/UI
 
@@ -26,6 +25,10 @@ Projeto proposto durante a tutoria do Programa Desenvolve - Grupo Boticário.
 
 ## 👾 Como testar?
 
-1. Clone o repositório:
+1. Acesse pelo Vercel: https://assistente-ia-cyan.vercel.app/
+   
+Ou
+
+2. Clone o repositório:
    ```bash
    git clone https://github.com/ThallyssonLuiz/assistente-ia

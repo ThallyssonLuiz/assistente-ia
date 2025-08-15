@@ -75,12 +75,31 @@ function exportToPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
+      back-en-anna
   const element = document.getElementById("bot-response");
   html2canvas(element).then(canvas => {
     const imgData = canvas.toDataURL("image/png");
     doc.addImage(imgData, "PNG", 10, 10, 180, 0);
     doc.save("resposta.pdf");
   });
+ 
+//parte de persistência de tema
+function saveThemePreference() {
+  if (body.classList.contains("dark-mode")) {
+    localStorage.setItem("theme", "dark");
+  } else {
+    localStorage.setItem("theme", "light");
+  }
+}
+
+function loadThemePreference() {
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme === "dark") {
+    body.classList.add("dark-mode");
+  } else {
+    body.classList.remove("dark-mode");
+  }
+         main
 }
 
 // Exportar como Imagem
