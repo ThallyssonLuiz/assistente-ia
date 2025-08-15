@@ -36,11 +36,12 @@ body {
 
 .chat-area {
   flex: 1;
-  padding: 15px;
+  padding: 15px 0;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  padding: 15px; /* talvez tirar */
 }
 
 .message {
@@ -215,3 +216,28 @@ body.dark-mode .input-area button {
 .copy-btn:hover {
   transform: scale(1.2);
 }
+
+/* botões de exportação */
+.btn-group {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.btn-group button {
+  padding: 5px 8px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  background-color: #eee;
+  transition: background 0.3s;
+}
+
+.btn-group button:hover {
+  background-color: #ddd;
+}
+
+.copy-btn { background-color: #d1e7ff; }
+.pdf-btn { background-color: #ffe5b4; }
+.img-btn { background-color: #d4f4d7; }

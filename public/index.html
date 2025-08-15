@@ -4,43 +4,69 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Assistente IA - Lily</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 </head>
 <body>
   <div class="app-container">
+        <!-- Botão de alternar tema claro/escuro -->
     <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
+    <!-- Cabeçalho do app -->
     <header class="header">
       <h1>Lily</h1>
-      <p>Assistente Virtual do Grupo Boticário</p>
+      <p>Seu assistente pessoal de IA</p>
     </header>
-    <div class="input-group">
-      <label>API Key:</label>
-      <input type="text" id="inputApiKey" placeholder="Insira sua API Key aqui" />
+
+    <div class="input-group"> 
+      <label>API Key:</label> 
+      <input type="text" id="inputApiKey" placeholder="Insira sua API Key aqui" /> 
     </div>
+
+    <!-- Área do chat -->
     <section class="chat-area">
-      <div class="message bot" role="region" aria-label="Mensagem da assistente Lily">
+       <!-- Mensagem da assistente -->
+      <div class="message bot" id="botMessage" role="region" aria-label="Mensagem da assistente Lily">
         <div class="avatar">
           <img src="imgs/lily.jpg" alt="Avatar da assistente Lily">
         </div>
         <div class="text">
-          Olá! Como posso te ajudar hoje?
-          <button class="copy-btn" aria-label="Copiar mensagem" onclick="copyToClipboard(this)">📋</button>
+          <span>Olá! Como posso te ajudar hoje?</span>
+          <div class="buttons">
+             <!-- Botão de copiar texto -->
+            <button class="copy-btn" aria-label="Copiar mensagem" onclick="copyToClipboard(this)">📋</button>
+            <!-- Botão de exportar PDF -->
+            <button class="pdf-btn" aria-label="Exportar PDF" onclick="exportToPDF()">📄</button>
+            <!-- Botão de exportar imagens -->
+            <button class="img-btn" aria-label="Exportar Imagem" onclick="exportToImage()">🖼️</button>
+            <!-- Botão de limpar resposta -->
+            <button class="clear-btn" aria-label="Limpar resposta" onclick="clearResponse()">🗑️</button>
+
+          </div>
         </div>
       </div>
-
-
-      <!--<div class="message user">
+      
+      <!-- Mensagem do usuário -->
+      <div class="message user">
         <div class="text">Qual a previsão do tempo?</div>
         <div class="avatar">👤</div>
-      </div>-->
+      </div>
     </section>
-
+     
+    <div class="message bot" role="region" aria-label="Mensagem da assistente Lily">
+  <div class="avatar">
+    <img src="imgs/lily.jpg" alt="Avatar da assistente Lily">
+  </div>
+ 
+     <!-- Área de entrada de texto -->
     <footer class="input-area">
-      <input type="text" id="userInput" placeholder="Qual a sua dúvida hoje?" />
-      <button id="sendBtn">Enviar</button>
+      <input type="text" placeholder="Qual a sua dúvida hoje?" />
+      <button>Enviar</button>
     </footer>
   </div>
   
-<script src="script.js"></script>
+  <script src="script.js"></script>
+
 </body>
 </html>
