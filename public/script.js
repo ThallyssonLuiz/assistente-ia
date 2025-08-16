@@ -196,3 +196,23 @@ sendBtn.addEventListener('click', () => {
   userInput.value = '';                      
   charCount.textContent = `0 / ${maxLength}`;
 });
+
+document.getElementById("clearBtn").addEventListener("click", () => {
+  if (confirm("Tem certeza que deseja limpar todo o chat?")) {
+    
+    chatArea.innerHTML = `
+      <div class="message bot" role="region" aria-label="Mensagem da assistente Lily">
+        <div class="avatar">
+          <img src="imgs/lily.jpg" alt="Avatar da assistente Lily">
+        </div>
+        <div class="text">
+          Olá! Como posso te ajudar hoje?📋
+        </div>
+      </div>
+    `;
+
+    
+    localStorage.removeItem("conteudoUsuario");
+    localStorage.removeItem("conteudoIA");
+  }
+});
