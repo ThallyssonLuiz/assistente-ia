@@ -111,4 +111,5 @@ function exportToImage() {
     link.href = canvas.toDataURL();
     link.click();
   });
-}
+  botResponse.textContent = resposta;
+  botResponse.style.animation = 'fadeIn 0.5s ease-in-out';

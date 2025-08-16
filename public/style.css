@@ -69,25 +69,7 @@ body {
 .message.user .text {
   background: #e858ff;
   color: white;
-<<<<<<< HEAD
-}
 
-.text {
-  padding: clamp(10px, 1.5vw, 18px) clamp(14px, 2vw, 24px);
-  border-radius: 20px;
-  max-width: 70%;
-  font-size: clamp(14px, 1.2vw, 18px);
-=======
-  padding: 10px 15px;
-  border-radius: 20px;
-  max-width: 70%;
-  font-size: 14px;
-  word-wrap: break-word;
-}
-
-.text {
-  display: inline-block;
->>>>>>> a8976f9 (Atualiza HTML, CSS e JS do chat)
 }
 
 .avatar {
@@ -174,32 +156,6 @@ body {
   font-style: italic;
 }
 
-<<<<<<< HEAD
-.input-area input {
-  flex: 1;
-  padding: clamp(8px, 1vw, 12px) clamp(12px, 1.2vw, 15px);
-  border: none;
-  border-radius: 20px;
-  background: #eae6f8;
-  color: #333;
-  font-size: clamp(14px, 1vw, 16px);
-}
-
-.input-area button {
-  background: linear-gradient(135deg, #8f54ff, #4e9fff);
-  border: none;
-  color: white;
-  padding: clamp(10px, 1.3vw, 16px) clamp(14px, 1.5vw, 20px);
-  margin-left: 10px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: clamp(14px, 1.1vw, 18px);
-}
-
-/* Botão para alterar o tema */
-=======
-/* Botão de alternar tema */
->>>>>>> a8976f9 (Atualiza HTML, CSS e JS do chat)
 .theme-toggle {
   position: absolute;
   top: 15px;
@@ -250,26 +206,6 @@ body.dark-mode .input-area button {
   background: linear-gradient(135deg, #e858ff, #8f54ff);
 }
 
-<<<<<<< HEAD
-.copy-btn {
-  background: none;
-  border: none;
-  font-size: 14px;
-  margin-left: 10px;
-  cursor: pointer;
-  color: white;
-  transition: transform 0.2s ease;
-}
-
-.copy-btn:hover {
-  transform: scale(1.2);
-}
-
-      back-en-anna
-/* botões de exportação */
-=======
-/* Botões do bot (copiar, PDF, imagem, limpar) */
->>>>>>> a8976f9 (Atualiza HTML, CSS e JS do chat)
 .btn-group {
   display: flex;
   gap: 6px;
@@ -286,42 +222,36 @@ body.dark-mode .input-area button {
   transition: transform 0.2s ease, background 0.3s ease;
 }
 
+.btn-group button[aria-label]::after {
+  content: attr(aria-label);
+  position: absolute;
+  background: #333;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.btn-group button:hover::after {
+  opacity: 1;
+  transform: translateY(-20px);
+}
+
 /* Cores dos botões mantendo contraste e legibilidade */
 .copy-btn { background-color: #d1e7ff; color: #000; }
 .copy-btn:hover { transform: scale(1.1); }
 
-<<<<<<< HEAD
-.copy-btn { background-color: #d1e7ff; }
-.pdf-btn { background-color: #ffe5b4; }
-.img-btn { background-color: #d4f4d7; }
- 
-@media (max-width: 768px) {
-  .app-container {
-    max-width: 100%;
-    max-height: 100%;
-    border-radius: 0; 
-  }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-@media (min-width: 1024px) {
-  .app-container {
-    max-width: 100vw;
-    max-height: 100vh;
-  }
-  
-  .text {
-    font-size: 18px;
-  }
+#botResponse {
+  animation: fadeIn 0.5s ease-in-out;
+  display: inline-block;
 }
-
-  main
-=======
-.pdf-btn { background-color: #ffe5b4; color: #000; }
-.pdf-btn:hover { transform: scale(1.1); }
-
-.img-btn { background-color: #d4f4d7; color: #000; }
-.img-btn:hover { transform: scale(1.1); }
-
-.clear-btn { background-color: #f8d7da; color: #000; }
-.clear-btn:hover { transform: scale(1.1); }
->>>>>>> a8976f9 (Atualiza HTML, CSS e JS do chat)

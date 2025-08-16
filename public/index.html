@@ -32,14 +32,7 @@
         <div class="avatar">
           <img src="imgs/lily.jpg" alt="Avatar da assistente Lily">
         </div>
-<<<<<<< HEAD
-        <div class="text">
-         back-en-anna
-=======
-        <div class="text" id="botResponse">
->>>>>>> a8976f9 (Atualiza HTML, CSS e JS do chat)
-          <span>Olá! Como posso te ajudar hoje?</span>
-        </div>
+        <span id="botResponse">Olá! Como posso te ajudar hoje?</span> <!-- Corrigido aqui -->
         <div class="buttons btn-group">
           <button class="copy-btn" id="copyBtn" aria-label="Copiar mensagem">📋</button>
           <button class="pdf-btn" id="pdfBtn" aria-label="Exportar PDF">📄</button>
@@ -47,28 +40,13 @@
           <button class="clear-btn" id="clearBtn" aria-label="Limpar resposta">🗑️</button>
         </div>
       </div>
-<<<<<<< HEAD
-      
-      <!-- Mensagem do usuário -->
-      <div class="message user">
-        <div class="text">Qual a previsão do tempo?</div>
-        <div class="avatar">👤</div>
-      </div>
- 
-          Olá! Como posso te ajudar hoje?📋
-          <button class="copy-btn" aria-label="Copiar mensagem" onclick="copyToClipboard(this)"></button>
-        </div>
-      </div>
-  main
-=======
->>>>>>> a8976f9 (Atualiza HTML, CSS e JS do chat)
-    </section>
 
-    <!-- Área de entrada de texto do usuário -->
-    <footer class="input-area">
-      <input type="text" id="userInput" placeholder="Qual a sua dúvida hoje?" />
-      <button id="sendBtn">Enviar</button>
-    </footer>
+      <!-- Área de entrada de texto do usuário -->
+      <footer class="input-area">
+        <input type="text" id="userInput" placeholder="Qual a sua dúvida hoje?" />
+        <button id="sendBtn">Enviar</button>
+      </footer>
+    </section>
   </div>
 
   <script>
@@ -169,6 +147,10 @@
         link.click();
       });
     });
+
+    botResponse.textContent = resposta;
+    botResponse.style.animation = 'fadeIn 0.5s ease-in-out';
+
   </script>
 </body>
 </html>
