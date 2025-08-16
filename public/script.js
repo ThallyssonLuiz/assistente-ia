@@ -1,125 +1,86 @@
-const body = document.body;
-const toggleBtn = document.getElementById("themeToggle");
-const input = document.getElementById("userInput");
-const button = document.getElementById("sendBtn");
-const chatArea = document.querySelector(".chat-area");
-const inputKeyApi = document.getElementById("inputApiKey");
+document.getElementById('sendBtn').addEventListener('click', async () => {
+    const apiKey = document.getElementById('apiKey').value.trim();
+    const pergunta = document.getElementById('userInput').value.trim();
 
-inputKeyApi.addEventListener("keydown", function(event) {
-  if (event.key == "Enter") {
-    const chaveAPI = inputKeyApi.value.trim();
-    if (chaveAPI) {
-      localStorage.setItem("OPEN_API_KEY", chaveAPI);
-      console.log("Chave salva no navegador");
-      alert("Chave salva com sucesso!");
-      inputKeyApi.value = "";
+    if (!apiKey || !pergunta) {
+        alert("Preencha a API key e sua pergunta!");
+        return;
     }
-  }
-})
 
-button.addEventListener("click", async() => {
-  const textoUsuario = input.value.trim();
-  if (!textoUsuario) return;
+    try {
+        const resposta = await obterResposta(apiKey, pergunta);
+        mostrarResposta(resposta);
+    } catch (erro) {
+        mostrarResposta("Ocorreu um erro ao buscar a resposta.");
+    }
+});
 
-  const chave = localStorage.getItem("OPEN_API_KEY");
+// Função para chamar a API da OpenAI
+async function obterResposta(apiKey, pergunta) {
+    const url = "https://api.openai.com/v1/chat/completions";
 
-  if (!chave) {
-    alert("Por favor, insira sua chave da API antes de enviar mensagens.");
-    return;
-  }
+    const requestOptions = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: pergunta }],
+            max_tokens: 100
+        })
+    };
 
-  let mensagens = JSON.parse(localStorage.getItem('conteudoUsuario')) || [];
-  mensagens.push(textoUsuario);
-  localStorage.setItem('conteudoUsuario', JSON.stringify(mensagens));
-  //localStorage.setItem('conteudoUsuario', textoUsuario);
-
-  //nesse ponto, o innerHTML é responsável por adicionar essa mensagem como um elemento dentro do bloco do chat
-  chatArea.innerHTML += `
-    <div class="message user">
-      <div class="text">${textoUsuario}</div>
-      <div class="avatar">👤</div>
-    </div>
-  `;
-
-  input.value = "";
-
-  //já nessa parte, é onde será enviada a dúvida ou consideração ao servidor
-  try {
-    const response = await fetch('/mensagem', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      //nesse ponto, o stringify transforma o objeto recebido em json
-      body: JSON.stringify({ 
-        chave: chave,
-        mensagem: textoUsuario 
-      })
-    });
-
+    const response = await fetch(url, requestOptions);
     const data = await response.json();
-    const respostaIA = data.resposta;
 
-    let respostas = JSON.parse(localStorage.getItem('conteudoIA')) || [];
-    respostas.push(respostaIA);
-    localStorage.setItem('conteudoIA', JSON.stringify(respostas));
+// Função para mostrar a resposta
+function mostrarResposta(texto) {
+    const container = document.getElementById('responseContainer');
+    const resposta = document.getElementById('responseText');
 
-
-    chatArea.innerHTML += `
-      <div class="message bot">
-        <div class="avatar">
-          <img src="imgs/lily.jpg" alt="Avatar do Assistente">
-        </div>
-        <div class="text">${respostaIA}</div>
-      </div>
-      `;
-  } catch(error) {
-    console.error("Erro:", error)
-  }
-});
-
-document.getElementById("exportBtn").addEventListener("click", () => {
-  const element = document.getElementById("chatArea");
-  html2pdf().from(element).save("chat.pdf");
-})
-
-
-window.addEventListener('DOMContentLoaded', () => {
-  const mensagens = JSON.parse(localStorage.getItem('conteudoUsuario') || '[]');
-  const respostas = JSON.parse(localStorage.getItem('conteudoIA') || '[]');
-
-  for (let i=0; i < mensagens.length; i++) {
-    chatArea.innerHTML += `
-      <div class="message user">
-        <div class="text">${mensagens[i]}</div>
-        <div class="avatar">👤</div>
-      </div>
-    `;
-    if (respostas[i]) {
-      chatArea.innerHTML += `
-        <div class="message bot">
-          <div class="avatar">
-            <img src="imgs/lily.jpg" alt="Avatar do Assistente">
-          </div>
-          <div class="text">${respostas[i]}</div>
-        </div>
-      `;
-    }
-  }
-});
-
-function toggleTheme() {
-  body.classList.toggle("dark-mode");
-  updateIcon();
-  saveThemePreference();
+    resposta.textContent = texto;
+    container.style.display = 'block'; // aparece só quando tem resposta
 }
 
-function updateIcon() {
-  if (body.classList.contains("dark-mode")) {
-    toggleBtn.textContent = "☀️";
-  } else {
-    toggleBtn.textContent = "🌙";
-  }
+// Botão para copiar texto
+document.getElementById('copyBtn').addEventListener('click', () => {
+    const texto = document.getElementById('responseText').textContent;
+    navigator.clipboard.writeText(texto).then(() => {
+        alert("Texto copiado para a área de transferência!");
+    }).catch(err => {
+        console.error("Erro ao copiar:", err);
+    });
+});
+
+// Botão para limpar resposta
+document.getElementById('clearBtn').addEventListener('click', () => {
+    document.getElementById('responseContainer').style.display = 'none';
+    document.getElementById('responseText').textContent = '';
+});
+
+// Copiar para área de transferência
+function copyToClipboard(button) {
+  const text = button.parentElement.parentElement.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    alert("Mensagem copiada!");
+  });
 }
 
+// Exportar como PDF
+function exportToPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+      back-en-anna
+  const element = document.getElementById("bot-response");
+  html2canvas(element).then(canvas => {
+    const imgData = canvas.toDataURL("image/png");
+    doc.addImage(imgData, "PNG", 10, 10, 180, 0);
+    doc.save("resposta.pdf");
+  });
+ 
 //parte de persistência de tema
 function saveThemePreference() {
   if (body.classList.contains("dark-mode")) {
@@ -136,38 +97,3 @@ function loadThemePreference() {
   } else {
     body.classList.remove("dark-mode");
   }
-}
-
-window.onload = () => {
-  loadThemePreference();
-  updateIcon(); 
-};
-
-/* clipboar */
-function copyToClipboard(button) {
-  const messageText = button.parentElement.textContent.replace('📋', '').trim();
-
-  navigator.clipboard.writeText(messageText).then(() => {
-    button.textContent = '✅'; 
-    setTimeout(() => {
-      button.textContent = '📋';
-    }, 1500);
-  }).catch(err => {
-    console.error('Erro ao copiar:', err);
-  });
-}
-
-const userInput = document.getElementById('userInput');
-const charCount = document.getElementById('charCount');
-const sendBtn = document.getElementById('sendBtn');
-const maxLength = 200;
-
-userInput.addEventListener('input', () => {
-  const currentLength = userInput.value.length;
-  charCount.textContent = `${currentLength} / ${maxLength}`;
-});
-
-sendBtn.addEventListener('click', () => {
-  userInput.value = '';                      
-  charCount.textContent = `0 / ${maxLength}`;
-});

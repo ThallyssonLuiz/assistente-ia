@@ -4,45 +4,143 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Assistente IA - Lily</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
   <div class="app-container">
-    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
-    <button class="export_btn" id="exportBtn"><img src="./imgs/export.svg" alt="imagem de exportar em pdf"></button>
-    <header class="header">
-      <div class="header_content">
-        <h1>Lily</h1>
-        <p>Assistente Virtual do Grupo Boticário</p>
-      </div>
+
     </header>
+    <!-- Input da API Key -->
     <div class="input-group">
-      <label>API Key:</label>
+      <label for="inputApiKey">API Key:</label>
       <input type="text" id="inputApiKey" placeholder="Insira sua API Key aqui" />
     </div>
-    <section class="chat-area" id="chatArea">
-      <div class="message bot" role="region" aria-label="Mensagem da assistente Lily">
+
         <div class="avatar">
           <img src="imgs/lily.jpg" alt="Avatar da assistente Lily">
         </div>
-        <div class="text">
-          Olá! Como posso te ajudar hoje?📋
-          <button class="copy-btn" aria-label="Copiar mensagem" onclick="copyToClipboard(this)"></button>
+        <span id="botResponse">Olá! Como posso te ajudar hoje?</span> <!-- Corrigido aqui -->
+        <div class="buttons btn-group">
+          <button class="copy-btn" id="copyBtn" aria-label="Copiar mensagem">📋</button>
+          <button class="pdf-btn" id="pdfBtn" aria-label="Exportar PDF">📄</button>
+          <button class="img-btn" id="imgBtn" aria-label="Exportar Imagem">🖼️</button>
+          <button class="clear-btn" id="clearBtn" aria-label="Limpar resposta">🗑️</button>
         </div>
       </div>
-    </section>
 
-    <footer class="input-area">
-      <input type="text" id="userInput" placeholder="Qual a sua dúvida hoje?" />
-      <span id="charCount">0 / 200</span>
-      <button id="clearBtn" class="clear-btn">Limpar</button>
-      <button id="sendBtn">Enviar</button>
-      <!--<button id="copyBtn" class="copy-btn">Copiar</button>-->
-    </footer>
-    <p id="copy">&copy; 2025, Equipe Lily, Projeto Capacita Brasil</p>
+      <!-- Área de entrada de texto do usuário -->
+      <footer class="input-area">
+        <input type="text" id="userInput" placeholder="Qual a sua dúvida hoje?" />
+        <button id="sendBtn">Enviar</button>
+      </footer>
+    </section>
   </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<script src="script.js"></script>
+  <script>
+    // Toggle tema claro/escuro
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+    });
+
+    const sendBtn = document.getElementById('sendBtn');
+    const apiInput = document.getElementById('inputApiKey');
+    const userInput = document.getElementById('userInput');
+    const botResponse = document.getElementById('botResponse');
+    const chatArea = document.getElementById('chatArea');
+
+    // Enviar pergunta
+    sendBtn.addEventListener('click', async () => {
+      const apiKey = apiInput.value.trim();
+      const pergunta = userInput.value.trim();
+
+      if (!apiKey || !pergunta) {
+        alert("Preencha a API key e sua pergunta!");
+        return;
+      }
+
+      // Adiciona mensagem do usuário
+      const userMsgDiv = document.createElement('div');
+      userMsgDiv.className = 'message user';
+      userMsgDiv.innerHTML = `<div class="text">${pergunta}</div><div class="avatar">👤</div>`;
+      chatArea.appendChild(userMsgDiv);
+      chatArea.scrollTop = chatArea.scrollHeight;
+
+      userInput.value = ''; // limpa input
+
+      try {
+        botResponse.textContent = 'Carregando...';
+        const resposta = await obterResposta(apiKey, pergunta);
+        botResponse.textContent = resposta;
+        chatArea.scrollTop = chatArea.scrollHeight;
+      } catch (erro) {
+        botResponse.textContent = "Ocorreu um erro ao buscar a resposta.";
+        console.error(erro);
+      }
+    });
+
+    // Função para chamar a API OpenAI
+    async function obterResposta(apiKey, pergunta) {
+      const url = "https://api.openai.com/v1/chat/completions";
+
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: "gpt-3.5-turbo",
+          messages: [{ role: "user", content: pergunta }],
+          max_tokens: 150
+        })
+      };
+
+      const response = await fetch(url, requestOptions);
+      const data = await response.json();
+      return data.choices[0].message.content;
+    }
+
+    // Copiar mensagem
+    document.getElementById('copyBtn').addEventListener('click', () => {
+      navigator.clipboard.writeText(botResponse.textContent)
+        .then(() => alert("Mensagem copiada!"))
+        .catch(err => console.error("Erro ao copiar:", err));
+    });
+
+    // Limpar resposta
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      botResponse.textContent = '';
+    });
+
+    // Exportar PDF
+    document.getElementById('pdfBtn').addEventListener('click', () => {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      html2canvas(botResponse).then(canvas => {
+        const imgData = canvas.toDataURL("image/png");
+        doc.addImage(imgData, "PNG", 10, 10, 180, 0);
+        doc.save("resposta.pdf");
+      });
+    });
+
+    // Exportar imagem
+    document.getElementById('imgBtn').addEventListener('click', () => {
+      html2canvas(botResponse).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "resposta.png";
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+    });
+
+    botResponse.textContent = resposta;
+    botResponse.style.animation = 'fadeIn 0.5s ease-in-out';
+
+  </script>
+
 </body>
 </html>
