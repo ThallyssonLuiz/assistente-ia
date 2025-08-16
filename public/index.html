@@ -10,20 +10,18 @@
 </head>
 <body>
   <div class="app-container">
+    <button class="theme-toggle" id="themeToggle">🌙</button>
 
-    <!-- Cabeçalho -->
     <header class="header">
       <h1>Lily</h1>
       <p>Seu assistente pessoal de IA</p>
     </header>
 
-    <!-- Campo da API Key -->
     <div class="input-group">
       <label for="inputApiKey">API Key:</label>
       <input type="text" id="inputApiKey" placeholder="Insira sua API Key aqui" />
     </div>
 
-    <!-- Área do chat -->
     <section class="chat-area" id="chatArea">
       <div class="message bot" id="botMessage" role="region" aria-label="Mensagem da assistente Lily">
         <div class="avatar">
@@ -35,20 +33,24 @@
           <button class="pdf-btn" id="pdfBtn" aria-label="Exportar PDF">📄</button>
           <button class="img-btn" id="imgBtn" aria-label="Exportar Imagem">🖼️</button>
           <button class="clear-btn" id="clearBtn" aria-label="Limpar resposta">🗑️</button>
+
+          <!-- Botões de anexar -->
+          <label for="pdfInput" class="file-btn">📎 Anexar PDF</label>
+          <input type="file" id="pdfInput" accept=".pdf" style="display: none;" />
+
+          <label for="imgInput" class="file-btn">🖼️ Anexar Imagem</label>
+          <input type="file" id="imgInput" accept="image/*" style="display: none;" />
         </div>
       </div>
 
-      <!-- Área de entrada de texto do usuário -->
       <footer class="input-area">
         <input type="text" id="userInput" placeholder="Qual a sua dúvida hoje?" />
         <button id="sendBtn">Enviar</button>
       </footer>
     </section>
-
   </div>
 
   <script>
-    // Toggle tema claro/escuro
     const themeToggle = document.getElementById('themeToggle');
     themeToggle.addEventListener('click', () => {
       document.body.classList.toggle('dark-mode');
@@ -61,7 +63,6 @@
     const botResponse = document.getElementById('botResponse');
     const chatArea = document.getElementById('chatArea');
 
-    // Enviar pergunta
     sendBtn.addEventListener('click', async () => {
       const apiKey = apiInput.value.trim();
       const pergunta = userInput.value.trim();
@@ -71,19 +72,19 @@
         return;
       }
 
-      // Adiciona mensagem do usuário
       const userMsgDiv = document.createElement('div');
       userMsgDiv.className = 'message user';
       userMsgDiv.innerHTML = `<div class="text">${pergunta}</div><div class="avatar">👤</div>`;
       chatArea.appendChild(userMsgDiv);
       chatArea.scrollTop = chatArea.scrollHeight;
 
-      userInput.value = ''; // limpa input
+      userInput.value = '';
 
       try {
         botResponse.textContent = 'Carregando...';
         const resposta = await obterResposta(apiKey, pergunta);
         botResponse.textContent = resposta;
+        botResponse.style.animation = 'fadeIn 0.5s ease-in-out';
         chatArea.scrollTop = chatArea.scrollHeight;
       } catch (erro) {
         botResponse.textContent = "Ocorreu um erro ao buscar a resposta.";
@@ -91,10 +92,8 @@
       }
     });
 
-    // Função para chamar a API OpenAI
     async function obterResposta(apiKey, pergunta) {
       const url = "https://api.openai.com/v1/chat/completions";
-
       const requestOptions = {
         method: "POST",
         headers: {
@@ -107,25 +106,21 @@
           max_tokens: 150
         })
       };
-
       const response = await fetch(url, requestOptions);
       const data = await response.json();
       return data.choices[0].message.content;
     }
 
-    // Copiar mensagem
     document.getElementById('copyBtn').addEventListener('click', () => {
       navigator.clipboard.writeText(botResponse.textContent)
         .then(() => alert("Mensagem copiada!"))
         .catch(err => console.error("Erro ao copiar:", err));
     });
 
-    // Limpar resposta
     document.getElementById('clearBtn').addEventListener('click', () => {
       botResponse.textContent = '';
     });
 
-    // Exportar PDF
     document.getElementById('pdfBtn').addEventListener('click', () => {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
@@ -136,7 +131,6 @@
       });
     });
 
-    // Exportar imagem
     document.getElementById('imgBtn').addEventListener('click', () => {
       html2canvas(botResponse).then(canvas => {
         const link = document.createElement("a");
@@ -146,9 +140,33 @@
       });
     });
 
-    botResponse.textContent = resposta;
-    botResponse.style.animation = 'fadeIn 0.5s ease-in-out';
+    // Leitura de PDF
+    document.getElementById('pdfInput').addEventListener('change', async (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = async () => {
+          const content = reader.result;
+          botResponse.textContent = "Conteúdo do PDF carregado!";
+          console.log("PDF:", content);
+        };
+        reader.readAsText(file);
+      }
+    });
 
+    // Leitura de imagem
+    document.getElementById('imgInput').addEventListener('change', async (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = async () => {
+          const imageData = reader.result;
+          botResponse.textContent = "Imagem carregada!";
+          console.log("Imagem:", imageData);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
   </script>
 </body>
 </html>
