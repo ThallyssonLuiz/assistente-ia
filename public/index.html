@@ -9,15 +9,18 @@
 <body>
   <div class="app-container">
     <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
+    <button class="export_btn" id="exportBtn"><img src="./imgs/export.svg" alt="imagem de exportar em pdf"></button>
     <header class="header">
-      <h1>Lily</h1>
-      <p>Assistente Virtual do Grupo Boticário</p>
+      <div class="header_content">
+        <h1>Lily</h1>
+        <p>Assistente Virtual do Grupo Boticário</p>
+      </div>
     </header>
     <div class="input-group">
       <label>API Key:</label>
       <input type="text" id="inputApiKey" placeholder="Insira sua API Key aqui" />
     </div>
-    <section class="chat-area">
+    <section class="chat-area" id="chatArea">
       <div class="message bot" role="region" aria-label="Mensagem da assistente Lily">
         <div class="avatar">
           <img src="imgs/lily.jpg" alt="Avatar da assistente Lily">
@@ -38,7 +41,8 @@
     </footer>
     <p id="copy">&copy; 2025, Equipe Lily, Projeto Capacita Brasil</p>
   </div>
-  
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

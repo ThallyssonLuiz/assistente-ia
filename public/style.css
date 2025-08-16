@@ -34,7 +34,14 @@ body {
   color: white;
   padding: 20px;
   text-align: center;
+  display: flex;
 }
+
+.header_content {
+  text-align: center;
+  width: 100%;
+}
+
 
 .chat-area {
   flex: 1;
@@ -173,6 +180,18 @@ body {
   z-index: 10;
 }
 
+.export_btn {
+  position: absolute;
+  top: 18px;
+  right: 50px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: white;
+  z-index: 10;
+}
+
 /* Tema escuro */
 body.dark-mode {
   background: #1e1e2f;
@@ -223,6 +242,13 @@ body.dark-mode .input-area button {
 
 .copy-btn:hover {
   transform: scale(1.2);
+}
+
+.export_btn {
+  margin: 0;
+  border: none;
+  padding: 0;
+  background-color: transparent;
 }
 
 @media (max-width: 768px) {

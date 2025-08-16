@@ -76,6 +76,12 @@ button.addEventListener("click", async() => {
   }
 });
 
+document.getElementById("exportBtn").addEventListener("click", () => {
+  const element = document.getElementById("chatArea");
+  html2pdf().from(element).save("chat.pdf");
+})
+
+
 window.addEventListener('DOMContentLoaded', () => {
   const mensagens = JSON.parse(localStorage.getItem('conteudoUsuario') || '[]');
   const respostas = JSON.parse(localStorage.getItem('conteudoIA') || '[]');
