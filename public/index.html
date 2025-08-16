@@ -11,17 +11,25 @@
 <body>
   <div class="app-container">
 
+    <!-- Cabeçalho -->
+    <header class="header">
+      <h1>Lily</h1>
+      <p>Seu assistente pessoal de IA</p>
     </header>
-    <!-- Input da API Key -->
+
+    <!-- Campo da API Key -->
     <div class="input-group">
       <label for="inputApiKey">API Key:</label>
       <input type="text" id="inputApiKey" placeholder="Insira sua API Key aqui" />
     </div>
 
+    <!-- Área do chat -->
+    <section class="chat-area" id="chatArea">
+      <div class="message bot" id="botMessage" role="region" aria-label="Mensagem da assistente Lily">
         <div class="avatar">
           <img src="imgs/lily.jpg" alt="Avatar da assistente Lily">
         </div>
-        <span id="botResponse">Olá! Como posso te ajudar hoje?</span> <!-- Corrigido aqui -->
+        <span id="botResponse">Olá! Como posso te ajudar hoje?</span>
         <div class="buttons btn-group">
           <button class="copy-btn" id="copyBtn" aria-label="Copiar mensagem">📋</button>
           <button class="pdf-btn" id="pdfBtn" aria-label="Exportar PDF">📄</button>
@@ -36,6 +44,7 @@
         <button id="sendBtn">Enviar</button>
       </footer>
     </section>
+
   </div>
 
   <script>
