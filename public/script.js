@@ -40,6 +40,8 @@ button.addEventListener("click", async() => {
       <div class="avatar">👤</div>
     </div>
   `;
+  
+ copy()
 
   input.value = "";
 
@@ -81,6 +83,19 @@ document.getElementById("exportBtn").addEventListener("click", () => {
   html2pdf().from(element).save("chat.pdf");
 })
 
+function copy() {
+  const msgUser = document.querySelectorAll(".message.user")
+  
+  msgUser.forEach(msg => {
+    if (!msg.querySelector(".copy-btn")) {
+      const btn = document.createElement("button");
+      btn.className = "copy-btn";
+      btn.innerHTML = `<img id="imgCopy" src="./imgs/copyBlack.svg">`
+      msg.appendChild(btn);
+    }
+  })
+
+}
 
 window.addEventListener('DOMContentLoaded', () => {
   const mensagens = JSON.parse(localStorage.getItem('conteudoUsuario') || '[]');
@@ -103,6 +118,7 @@ window.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
     }
+    copy();
   }
 });
 
@@ -115,8 +131,17 @@ function toggleTheme() {
 function updateIcon() {
   if (body.classList.contains("dark-mode")) {
     toggleBtn.textContent = "☀️";
+
+    document.querySelectorAll(".copy-btn img").forEach(img => {
+      img.src = "./imgs/copy.svg"; 
+    });
+    
   } else {
     toggleBtn.textContent = "🌙";
+    
+    document.querySelectorAll(".copy-btn img").forEach(img => {
+      img.src = "./imgs/copyBlack.svg";
+    });
   }
 }
 
