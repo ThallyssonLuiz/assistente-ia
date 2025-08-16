@@ -148,7 +148,7 @@ function copyToClipboard(button) {
   const messageText = button.parentElement.textContent.replace('📋', '').trim();
 
   navigator.clipboard.writeText(messageText).then(() => {
-    button.textContent = '✅'; // feedback
+    button.textContent = '✅'; 
     setTimeout(() => {
       button.textContent = '📋';
     }, 1500);
@@ -156,3 +156,18 @@ function copyToClipboard(button) {
     console.error('Erro ao copiar:', err);
   });
 }
+
+const userInput = document.getElementById('userInput');
+const charCount = document.getElementById('charCount');
+const sendBtn = document.getElementById('sendBtn');
+const maxLength = 200;
+
+userInput.addEventListener('input', () => {
+  const currentLength = userInput.value.length;
+  charCount.textContent = `${currentLength} / ${maxLength}`;
+});
+
+sendBtn.addEventListener('click', () => {
+  userInput.value = '';                      
+  charCount.textContent = `0 / ${maxLength}`;
+});
