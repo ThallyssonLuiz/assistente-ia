@@ -1,48 +1,73 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Assistente IA - Lily</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <div class="app-container">
-    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
-    <button class="export_btn" id="exportBtn"><img src="./imgs/export.svg" alt="imagem de exportar em pdf"></button>
-    <header class="header">
-      <div class="header_content">
-        <h1>Lily</h1>
-        <p>Assistente Virtual do Grupo Boticário</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Assistente IA - Lily</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+        🌙
+      </button>
+      <button class="export_btn" id="exportBtn">
+        <img src="./imgs/export.svg" alt="imagem de exportar em pdf" />
+      </button>
+      <header class="header">
+        <div class="header_content">
+          <h1>Lily</h1>
+          <p>Assistente Virtual do Grupo Boticário</p>
+        </div>
+      </header>
+
+      <div class="input-group">
+        <label for="aiSelect">Modelo :</label>
+        <select id="aiSelect" onchange="switchAI()">
+          <option value="gemini">Gemini 2.5 Flash</option>
+          <option value="gpt4o">GPT-4o-mini</option>
+        </select>
       </div>
-    </header>
-    <div class="input-group">
-      <label>API Key:</label>
-      <input type="text" id="inputApiKey" placeholder="Insira sua API Key aqui" />
+
+      <div class="input-group">
+        <label>API Key:</label>
+        <input
+          type="text"
+          id="inputApiKey"
+          placeholder="Insira sua API Key aqui" />
+      </div>
+      <section class="chat-area" id="chatArea">
+        <div
+          class="message bot"
+          role="region"
+          aria-label="Mensagem da assistente Lily">
+          <div class="avatar">
+            <img src="imgs/lily.jpg" alt="Avatar da assistente Lily" />
+          </div>
+          <div class="text">
+            Olá! Como posso te ajudar hoje?📋
+            <button
+              class="copy-btn"
+              aria-label="Copiar mensagem"
+              onclick="copyToClipboard(this)"></button>
+          </div>
+        </div>
+      </section>
+
+      <footer class="input-area">
+        <input
+          type="text"
+          id="userInput"
+          placeholder="Qual a sua dúvida hoje?" />
+        <span id="charCount">0 / 200</span>
+        <button id="clearBtn" class="clear-btn">Limpar</button>
+        <button id="sendBtn">Enviar</button>
+        <!--<button id="copyBtn" class="copy-btn">Copiar</button>-->
+      </footer>
+      <p id="copy">&copy; 2025, Equipe Lily, Projeto Capacita Brasil</p>
     </div>
-    <section class="chat-area" id="chatArea">
-      <div class="message bot" role="region" aria-label="Mensagem da assistente Lily">
-        <div class="avatar">
-          <img src="imgs/lily.jpg" alt="Avatar da assistente Lily">
-        </div>
-        <div class="text">
-          Olá! Como posso te ajudar hoje?📋
-          <button class="copy-btn" aria-label="Copiar mensagem" onclick="copyToClipboard(this)"></button>
-        </div>
-      </div>
-    </section>
 
-    <footer class="input-area">
-      <input type="text" id="userInput" placeholder="Qual a sua dúvida hoje?" />
-      <span id="charCount">0 / 200</span>
-      <button id="clearBtn" class="clear-btn">Limpar</button>
-      <button id="sendBtn">Enviar</button>
-      <!--<button id="copyBtn" class="copy-btn">Copiar</button>-->
-    </footer>
-    <p id="copy">&copy; 2025, Equipe Lily, Projeto Capacita Brasil</p>
-  </div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<script src="script.js"></script>
-</body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="script.js"></script>
+  </body>
 </html>

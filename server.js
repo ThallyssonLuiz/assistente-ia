@@ -16,19 +16,9 @@ app.use(cors());
 app.use(express.json())
 app.use(express.static(path.join(_dirname, 'public')));
 
-//Essa rota POST é a responsável por receber as mensagens do front
-app.post('/mensagem', async (req, res) => {
-    const { chave, mensagem } = req.body;
-    //const mensagem = req.body.mensagem;
-
-    if (!chave) {
-        return res.status(400).json({ erro: "Chave da API não fornecida" });
-    }
-
+async function handleGPT4o(apiKey, mensagem) {
     const openai = new OpenAI({ apiKey: chave});
-
-    try {
-        const completion = await openai.chat.completions.create({
+    const completion = await openai.chat.completions.create({
         model: "gpt-4o-mini",
         messages: [
             {
@@ -41,10 +31,63 @@ app.post('/mensagem', async (req, res) => {
             },
         ],
         store: true,
-        });
-        const resposta = completion.choices[0].message.content;
+    });
+    const resposta = completion.choices[0].message.content;
+    res.json({ resposta });
+}
+
+// Função para lidar com Gemini 2.5 Flash
+async function handleGemini(apiKey, mensagem) {
+    const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                contents: [
+                    {
+                        parts: [
+                            { text: mensagem }, // Envia a mensagem diretamente
+                        ],
+                    },
+                ],
+            }),
+        }
+    );
+    
+    
+    if (!response.ok) {
+        const errorMsg = (await response.json())?.error?.message || "Erro na requisição";
+        throw new Error(errorMsg);
+    }
+    
+    const data = await response.json();
+    return data.candidates[0].content.parts[0].text;
+}
+
+//Essa rota POST é a responsável por receber as mensagens do front
+app.post('/mensagem', async (req, res) => {
+    const { chave, mensagem, modelo } = req.body;
+    //const mensagem = req.body.mensagem;
+
+    if (!chave) {
+        return res.status(400).json({ erro: "Chave da API não fornecida" });
+    }
+
+     if (!mensagem) {
+        return res.status(400).json({ erro: "Mensagem não fornecida" });
+    }
+
+    try {
+        // Chama diretamente a função correspondente ao modelo
+        const resposta = modelo === 'gpt4o'
+            ? await handleGPT4o(chave, mensagem)
+            : await handleGemini(chave, mensagem)
+
         res.json({ resposta });
-    } catch(error) {
+    } catch (error) {
         console.error(error);
         res.status(500).json({ erro: "Erro ao gerar a resposta da IA" });
     }

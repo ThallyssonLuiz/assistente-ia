@@ -140,6 +140,23 @@ body {
   font-style: italic;
 }
 
+.input-group select {
+  padding: clamp(5px,  1.5vw, 5px) clamp(5px,  1.5vw, 20px);
+    font-size: clamp(15px, 1.2vw, 15px);
+  border: 2px solid #ddb6db;
+  border-radius: 8px;
+  background-color: #ecf0f1;
+  color: #34495e;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.input-group select:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+  background-color: #ffffff;
+}
+
 .input-area input {
   flex: 1;
   padding: clamp(8px, 1vw, 12px) clamp(12px, 1.2vw, 15px);

@@ -4,24 +4,44 @@ const input = document.getElementById("userInput");
 const button = document.getElementById("sendBtn");
 const chatArea = document.querySelector(".chat-area");
 const inputKeyApi = document.getElementById("inputApiKey");
+const aiSelect = document.getElementById('aiSelect');
+ 
+function switchAI() {
+  const selectedAI = aiSelect.value;
+  console.log(`Modelo selecionado: ${selectedAI}`);
+}
 
 inputKeyApi.addEventListener("keydown", function(event) {
   if (event.key == "Enter") {
     const chaveAPI = inputKeyApi.value.trim();
-    if (chaveAPI) {
+     const modelo = document.getElementById("aiSelect").value;
+
+    if (modelo === 'gpt4o' && !chaveAPI.startsWith('sk-')) {
+      alert("Chave inválida para o modelo GPT-4o.");
+      return;
+    }
+
+    if (modelo === 'gemini' && !chaveAPI.startsWith('AIza')) {
+      alert("Chave inválida para o modelo Gemini.");
+      return;
+    }
       localStorage.setItem("OPEN_API_KEY", chaveAPI);
       console.log("Chave salva no navegador");
       alert("Chave salva com sucesso!");
       inputKeyApi.value = "";
     }
-  }
-})
+  })
 
 button.addEventListener("click", async() => {
   const textoUsuario = input.value.trim();
-  if (!textoUsuario) return;
-
   const chave = localStorage.getItem("OPEN_API_KEY");
+    const modelo = document.getElementById("aiSelect").value
+
+  if (!textoUsuario){
+    alert("Por favor, digite uma mensagem antes de enviar.");
+     return;
+    }
+
 
   if (!chave) {
     alert("Por favor, insira sua chave da API antes de enviar mensagens.");
@@ -53,7 +73,8 @@ button.addEventListener("click", async() => {
       //nesse ponto, o stringify transforma o objeto recebido em json
       body: JSON.stringify({ 
         chave: chave,
-        mensagem: textoUsuario 
+        mensagem: textoUsuario,
+        modelo
       })
     });
 
