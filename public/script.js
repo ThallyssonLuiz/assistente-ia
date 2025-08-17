@@ -111,11 +111,22 @@ function copy() {
     if (!msg.querySelector(".copy-btn")) {
       const btn = document.createElement("button");
       btn.className = "copy-btn";
-      btn.innerHTML = `<img id="imgCopy" src="./imgs/copyBlack.svg">`
+      btn.innerHTML = `<img src="./imgs/copyBlack.svg" alt="Copiar">`
+
+      btn.addEventListener("click", () => {
+        const text = msg.querySelector(".text").textContent;
+        console.log("copiando:", text)
+        navigator.clipboard.writeText(text).then(() => {
+          btn.innerHTML = "✅";
+          setTimeout(() => {
+            btn.innerHTML = `<img src="./imgs/copyBlack.svg" alt="Copiar">`;
+          }, 1500);
+        }).catch(err => console.error("Erro ao copiar:", err));
+      });
+
       msg.appendChild(btn);
     }
   })
-
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -123,21 +134,21 @@ window.addEventListener('DOMContentLoaded', () => {
   const respostas = JSON.parse(localStorage.getItem('conteudoIA') || '[]');
 
   for (let i=0; i < mensagens.length; i++) {
-    chatArea.innerHTML += `
+    chatArea.insertAdjacentHTML("beforeend", `
       <div class="message user">
         <div class="text">${mensagens[i]}</div>
         <div class="avatar">👤</div>
       </div>
-    `;
+    `);
     if (respostas[i]) {
-      chatArea.innerHTML += `
+      chatArea.insertAdjacentHTML("beforeend",`
         <div class="message bot">
           <div class="avatar">
             <img src="imgs/lily.jpg" alt="Avatar do Assistente">
           </div>
           <div class="text">${respostas[i]}</div>
         </div>
-      `;
+      `);
     }
     copy();
   }
@@ -189,19 +200,6 @@ window.onload = () => {
   updateIcon(); 
 };
 
-/* clipboar */
-function copyToClipboard(button) {
-  const messageText = button.parentElement.textContent.replace('📋', '').trim();
-
-  navigator.clipboard.writeText(messageText).then(() => {
-    button.textContent = '✅'; 
-    setTimeout(() => {
-      button.textContent = '📋';
-    }, 1500);
-  }).catch(err => {
-    console.error('Erro ao copiar:', err);
-  });
-}
 
 const userInput = document.getElementById('userInput');
 const charCount = document.getElementById('charCount');

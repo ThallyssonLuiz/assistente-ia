@@ -17,7 +17,7 @@ app.use(express.json())
 app.use(express.static(path.join(_dirname, 'public')));
 
 async function handleGPT4o(apiKey, mensagem) {
-    const openai = new OpenAI({ apiKey: chave});
+    const openai = new OpenAI({ apiKey: apiKey});
     const completion = await openai.chat.completions.create({
         model: "gpt-4o-mini",
         messages: [
@@ -32,7 +32,7 @@ async function handleGPT4o(apiKey, mensagem) {
         ],
         store: true,
     });
-    const resposta = completion.choices[0].message.content;
+    return completion.choices[0].message.content;
     res.json({ resposta });
 }
 
