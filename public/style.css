@@ -35,6 +35,9 @@ body {
   padding: 20px;
   text-align: center;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  
 }
 
 .header_content {
@@ -102,6 +105,9 @@ body {
   padding: 10px 15px;
   border-top: 1px solid #ddd;
   background: #f9f9f9;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .input-area input {
@@ -123,6 +129,12 @@ body {
   border-radius: 20px;
   cursor: pointer;
   font-size: 14px;
+}
+
+.input-area .btn-group {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 
 /* Input API Key */
@@ -224,6 +236,54 @@ body.dark-mode .input-area button {
   background: linear-gradient(135deg, #e858ff, #8f54ff);
 }
 
+.btn {
+  position: relative;           /* importante para posicionar o ::after */
+  background: #f0f0f0;
+  border: none;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* estilo base do tooltip */
+.btn::after {
+  content: attr(aria-label);
+  position: absolute;
+  bottom: 120%;                 /* posiciona acima do botão */
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.75);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 12px;
+  
+  opacity: 0;                   /* invisível por padrão */
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+/* seta pequena abaixo do tooltip */
+.btn::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;                 /* colado na base do tooltip */
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: rgba(0,0,0,0.75);
+  
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* ao hover, torne visível */
+.btn:hover::after,
+.btn:hover::before {
+  opacity: 1;
+}
+
 .btn-group {
   display: flex;
   gap: 6px;
@@ -254,11 +314,48 @@ body.dark-mode .input-area button {
   transition: opacity 0.3s ease;
   pointer-events: none;
 }
-/* Cores dos botões mantendo contraste e legibilidade */
-.copy-btn { background-color: #d1e7ff; color: #000; }
-.copy-btn:hover { transform: scale(1.1); }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* Tooltip customizado para todos os botões dentro de .buttons com aria-label */
+    .buttons button[aria-label] {
+      position: relative;
+    }
+    .buttons button[aria-label]::after {
+      content: attr(aria-label);
+      position: absolute;
+      bottom: 120%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.75);
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      font-size: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .buttons button[aria-label]::before {
+      content: "";
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: rgba(0, 0, 0, 0.75);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .buttons button[aria-label]:hover::after,
+    .buttons button[aria-label]:hover::before {
+      opacity: 1;
+    }
+
+    /* Cores dos botões mantendo contraste e legibilidade */
+    .copy-btn { background-color: #d1e7ff; color: #000; }
+    .copy-btn:hover { transform: scale(1.1); }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
