@@ -5,7 +5,6 @@
   font-family: 'Segoe UI', sans-serif;
 }
 
-/* Tema claro */
 body {
   background: #f4f1fa;
   display: flex;
@@ -77,6 +76,7 @@ body {
   border-radius: 20px;
   max-width: 70%;
   font-size: clamp(14px, 1.2vw, 18px);
+  word-wrap: break-word;
 }
 
 .avatar {
@@ -103,6 +103,7 @@ body {
   padding: 10px 15px;
   border-top: 1px solid #ddd;
   background: #f9f9f9;
+  gap: 8px;
 }
 
 .input-group {
@@ -155,7 +156,6 @@ body {
   border: none;
   color: white;
   padding: clamp(10px, 1.3vw, 16px) clamp(14px, 1.5vw, 20px);
-  margin-left: 10px;
   border-radius: 20px;
   cursor: pointer;
   font-size: clamp(14px, 1.1vw, 18px);
@@ -166,30 +166,116 @@ body {
   text-align: center;
 }
 
-/* Botão para alterar o tema */
-.theme-toggle {
+/* ========================= */
+/* Botões do topo (agrupados)*/
+/* ========================= */
+.top-buttons {
   position: absolute;
-  top: 15px;
-  right: 15px;
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  color: white;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   z-index: 10;
+  color: #fff;
 }
 
-.export_btn {
-  position: absolute;
-  top: 18px;
-  right: 50px;
+.theme-toggle,
+.export_btn,
+.history_btn {
+  position: static !important;
+}
+
+.top-buttons button {
   background: none;
   border: none;
+  cursor: pointer;
   font-size: 20px;
+  padding: 6px;
+  border-radius: 50%;
+  transition: background 0.2s ease, transform 0.1s ease;
+  line-height: 0;
+}
+
+.top-buttons button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.top-buttons svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.top-buttons img {
+  width: 20px;
+  height: 20px;
+  display: block;
+  object-fit: contain;
+}
+
+.copy-btn {
+  background: none;
+  border: none;
+  font-size: 14px;
+  margin-left: 10px;
   cursor: pointer;
   color: white;
-  z-index: 10;
+  transition: transform 0.2s ease;
 }
+
+.copy-btn:hover {
+  transform: scale(1.2);
+}
+
+#charCount {
+  font-size: 12px;
+  color: #888;
+  margin-left: 10px;
+  align-self: center;
+}
+
+/* ---------------------- */
+/* Modal Histórico */
+/* ---------------------- */
+.history-modal {
+  display: none; 
+  position: fixed;
+  z-index: 20;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background-color: rgba(0,0,0,0.6);
+}
+
+.history-content {
+  background: #fff;
+  margin: 60px auto;
+  padding: 20px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 600px;
+  color: #333;
+}
+
+.close-history {
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.history-list {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.history-msg.user { color: #8f54ff; }
+.history-msg.bot  { color: #4e9fff; }
 
 /* Tema escuro */
 body.dark-mode {
@@ -229,58 +315,97 @@ body.dark-mode .input-area button {
   background: linear-gradient(135deg, #e858ff, #8f54ff);
 }
 
-.copy-btn {
-  background: none;
-  border: none;
-  font-size: 14px;
-  margin-left: 10px;
-  cursor: pointer;
-  color: white;
-  transition: transform 0.2s ease;
-}
-
-.copy-btn:hover {
-  transform: scale(1.2);
-}
-
-.export_btn {
-  margin: 0;
-  border: none;
-  padding: 0;
-  background-color: transparent;
-}
-
-body.dark-mode #imgCopy {
-  src: "./imgs/copyBlack.svg";
-}
-
-@media (max-width: 768px) {
-  .app-container {
-    max-width: 100%;
-    max-height: 100%;
-    border-radius: 0; 
-  }
-}
-
-@media (min-width: 1024px) {
-  .app-container {
-    max-width: 100vw;
-    max-height: 100vh;
-  }
-  
-  .text {
-    font-size: 18px;
-  }
-}
-
-#charCount {
-  font-size: 12px;
-  color: #888;
-  margin-left: 10px;
-  align-self: center;
+body.dark-mode .history-content {
+  background: #2a2a3d;
+  color: #f0f0f0;
 }
 
 body.dark-mode #charCount {
   color: #f0f0f0;
   opacity: 0.7;
 }
+
+/* ========================= */
+/* Responsividade Mobile e Fullscreen Desktop */
+/* ========================= */
+
+/* Mobile / Tablet */
+@media (max-width: 1023px) {
+  .app-container {
+    width: 100%;
+    height: 100dvh;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 0;
+  }
+
+  .chat-area {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .text {
+    font-size: clamp(13px, 3vw, 16px);
+    max-width: 85%;
+    word-wrap: break-word;
+  }
+
+  .input-area {
+    padding: 8px 10px;
+    gap: 6px;
+  }
+
+  .input-area input {
+    font-size: clamp(13px, 3vw, 15px);
+  }
+
+  .input-area button {
+    padding: 8px 12px;
+    font-size: clamp(13px, 3vw, 15px);
+    margin-left: 5px;
+  }
+
+  .top-buttons {
+    top: 8px;
+    right: 8px;
+    gap: 6px;
+  }
+
+  .top-buttons button {
+    padding: 5px;
+    font-size: 18px;
+  }
+}
+
+/* Desktop / Notebook Fullscreen */
+@media (min-width: 1024px) {
+  body, html {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .app-container {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chat-area {
+    padding: 20px;
+  }
+
+  .input-area input {
+    font-size: 16px;
+  }
+
+  .input-area button {
+    font-size: 16px;
+  }
+}
+
