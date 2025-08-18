@@ -11,6 +11,7 @@ function switchAI() {
   console.log(`Modelo selecionado: ${selectedAI}`);
 }
 
+// Salvar chave API
 inputKeyApi.addEventListener("keydown", function(event) {
   if (event.key == "Enter") {
     const chaveAPI = inputKeyApi.value.trim();
@@ -26,22 +27,16 @@ inputKeyApi.addEventListener("keydown", function(event) {
       return;
     }
       localStorage.setItem("OPEN_API_KEY", chaveAPI);
-      console.log("Chave salva no navegador");
       alert("Chave salva com sucesso!");
       inputKeyApi.value = "";
     }
   })
 
+// Enviar mensagem
 button.addEventListener("click", async() => {
   const textoUsuario = input.value.trim();
   const chave = localStorage.getItem("OPEN_API_KEY");
-    const modelo = document.getElementById("aiSelect").value
-
-  if (!textoUsuario){
-    alert("Por favor, digite uma mensagem antes de enviar.");
-     return;
-    }
-
+  const modelo = document.getElementById("aiSelect").value
 
   if (!chave) {
     alert("Por favor, insira sua chave da API antes de enviar mensagens.");
@@ -51,9 +46,7 @@ button.addEventListener("click", async() => {
   let mensagens = JSON.parse(localStorage.getItem('conteudoUsuario')) || [];
   mensagens.push(textoUsuario);
   localStorage.setItem('conteudoUsuario', JSON.stringify(mensagens));
-  //localStorage.setItem('conteudoUsuario', textoUsuario);
 
-  //nesse ponto, o innerHTML é responsável por adicionar essa mensagem como um elemento dentro do bloco do chat
   chatArea.innerHTML += `
     <div class="message user">
       <div class="text">${textoUsuario}</div>
@@ -61,21 +54,16 @@ button.addEventListener("click", async() => {
     </div>
   `;
   
- copy()
-
+  copy();
   input.value = "";
 
-  //já nessa parte, é onde será enviada a dúvida ou consideração ao servidor
   try {
     const response = await fetch('/mensagem', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      //nesse ponto, o stringify transforma o objeto recebido em json
-      body: JSON.stringify({ 
-        chave: chave,
-        mensagem: textoUsuario,
-        modelo
-      })
+
+      body: JSON.stringify({ chave: chave, mensagem: textoUsuario, modelo})
+
     });
 
     const data = await response.json();
@@ -85,7 +73,6 @@ button.addEventListener("click", async() => {
     respostas.push(respostaIA);
     localStorage.setItem('conteudoIA', JSON.stringify(respostas));
 
-
     chatArea.innerHTML += `
       <div class="message bot">
         <div class="avatar">
@@ -93,20 +80,21 @@ button.addEventListener("click", async() => {
         </div>
         <div class="text">${respostaIA}</div>
       </div>
-      `;
+    `;
   } catch(error) {
     console.error("Erro:", error)
   }
 });
 
+// Exportar PDF
 document.getElementById("exportBtn").addEventListener("click", () => {
   const element = document.getElementById("chatArea");
   html2pdf().from(element).save("chat.pdf");
 })
 
+// Copiar mensagem
 function copy() {
-  const msgUser = document.querySelectorAll(".message.user")
-  
+  const msgUser = document.querySelectorAll(".message.user");
   msgUser.forEach(msg => {
     if (!msg.querySelector(".copy-btn")) {
       const btn = document.createElement("button");
@@ -124,11 +112,14 @@ function copy() {
         }).catch(err => console.error("Erro ao copiar:", err));
       });
 
+      btn.innerHTML = `<img id="imgCopy" src="./imgs/copyBlack.svg">`;
       msg.appendChild(btn);
     }
   })
 }
 
+
+// Carregar histórico no chat ao abrir
 window.addEventListener('DOMContentLoaded', () => {
   const mensagens = JSON.parse(localStorage.getItem('conteudoUsuario') || '[]');
   const respostas = JSON.parse(localStorage.getItem('conteudoIA') || '[]');
@@ -154,6 +145,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// Tema
 function toggleTheme() {
   body.classList.toggle("dark-mode");
   updateIcon();
@@ -163,21 +155,17 @@ function toggleTheme() {
 function updateIcon() {
   if (body.classList.contains("dark-mode")) {
     toggleBtn.textContent = "☀️";
-
     document.querySelectorAll(".copy-btn img").forEach(img => {
       img.src = "./imgs/copy.svg"; 
     });
-    
   } else {
     toggleBtn.textContent = "🌙";
-    
     document.querySelectorAll(".copy-btn img").forEach(img => {
       img.src = "./imgs/copyBlack.svg";
     });
   }
 }
 
-//parte de persistência de tema
 function saveThemePreference() {
   if (body.classList.contains("dark-mode")) {
     localStorage.setItem("theme", "dark");
@@ -200,7 +188,7 @@ window.onload = () => {
   updateIcon(); 
 };
 
-
+// Contador de caracteres
 const userInput = document.getElementById('userInput');
 const charCount = document.getElementById('charCount');
 const sendBtn = document.getElementById('sendBtn');
@@ -235,3 +223,49 @@ document.getElementById("clearBtn").addEventListener("click", () => {
     localStorage.removeItem("conteudoIA");
   }
 });
+
+// -----------------------------
+// Novo: Modal de histórico
+// -----------------------------
+const historyBtn = document.getElementById("historyBtn");
+const historyModal = document.getElementById("historyModal");
+const closeHistory = document.getElementById("closeHistory");
+const historyList = document.getElementById("historyList");
+
+historyBtn.addEventListener("click", () => {
+  historyList.innerHTML = ""; 
+  
+  const mensagens = JSON.parse(localStorage.getItem('conteudoUsuario') || '[]');
+  const respostas = JSON.parse(localStorage.getItem('conteudoIA') || '[]');
+
+  if (mensagens.length === 0) {
+    historyList.innerHTML = "<p>Nenhuma conversa salva.</p>";
+  } else {
+    for (let i = 0; i < mensagens.length; i++) {
+      const userMsg = document.createElement("div");
+      userMsg.className = "history-msg user";
+      userMsg.innerHTML = `<strong>Você:</strong> ${mensagens[i]}`;
+      historyList.appendChild(userMsg);
+
+      if (respostas[i]) {
+        const botMsg = document.createElement("div");
+        botMsg.className = "history-msg bot";
+        botMsg.innerHTML = `<strong>Lily:</strong> ${respostas[i]}`;
+        historyList.appendChild(botMsg);
+      }
+    }
+  }
+
+  historyModal.style.display = "block";
+});
+
+closeHistory.addEventListener("click", () => {
+  historyModal.style.display = "none";
+});
+
+window.addEventListener("click", (event) => {
+  if (event.target === historyModal) {
+    historyModal.style.display = "none";
+  }
+});
+

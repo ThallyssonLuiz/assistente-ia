@@ -33,7 +33,6 @@ async function handleGPT4o(apiKey, mensagem) {
         store: true,
     });
     return completion.choices[0].message.content;
-    res.json({ resposta });
 }
 
 // Função para lidar com Gemini 2.5 Flash

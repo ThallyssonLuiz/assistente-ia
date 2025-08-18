@@ -1,27 +1,47 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Assistente IA - Lily</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="app-container">
-      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assistente IA - Lily</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-container">
+    <!-- Botões de topo -->
+    <div class="top-buttons">
+      <button class="history_btn" id="historyBtn" title="Histórico de conversas" aria-label="Histórico de conversas">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 3v5h5"></path>
+          <path d="M3.51 9A9 9 0 1 0 8 3.46"></path>
+          <path d="M12 7v5l3 3"></path>
+        </svg>
+      </button>
+
+      <button class="export_btn" id="exportBtn" title="Exportar PDF" aria-label="Exportar PDF">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <path d="M7 10l5 5 5-5"></path>
+          <path d="M12 15V3"></path>
+        </svg>
+      </button>
+
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Alternar tema" aria-label="Alternar tema">
         🌙
       </button>
-      <button class="export_btn" id="exportBtn">
-        <img src="./imgs/export.svg" alt="imagem de exportar em pdf" />
-      </button>
-      <header class="header">
-        <div class="header_content">
-          <h1>Lily</h1>
-          <p>Assistente Virtual do Grupo Boticário</p>
-        </div>
-      </header>
+    </div>
 
-      <div class="input-group">
+    <!-- Cabeçalho -->
+    <header class="header">
+      <div class="header_content">
+        <h1>Lily</h1>
+        <p>Assistente Virtual do Grupo Boticário</p>
+      </div>
+    </header>
+
+          <div class="input-group">
         <label for="aiSelect">Modelo :</label>
         <select id="aiSelect" onchange="switchAI()">
           <option value="gemini">Gemini 2.5 Flash</option>
@@ -67,7 +87,17 @@
       <p id="copy">&copy; 2025, Equipe Lily, Projeto Capacita Brasil</p>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="script.js"></script>
-  </body>
+  <!-- Modal Histórico -->
+  <div id="historyModal" class="history-modal">
+    <div class="history-content">
+      <span id="closeHistory" class="close-history">&times;</span>
+      <h2>Histórico de Conversas</h2>
+      <div id="historyList" class="history-list"></div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+
 </html>
